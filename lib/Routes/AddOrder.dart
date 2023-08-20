@@ -1,85 +1,92 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:wheel_chooser/wheel_chooser.dart';
 
 class AddOrder extends StatelessWidget {
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.background,
-      appBar: AppBar(
-        title: Text('Tambah Order'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.fromLTRB(16, 8, 16, 4),
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Flexible(
-                    flex: 1,
-                    child: TextField(
-                      keyboardType: TextInputType.number,
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: 'No. Meja',
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        backgroundColor: Theme.of(context).colorScheme.background,
+        appBar: AppBar(
+          title: Text('Tambah Order'),
+        ),
+        body: Padding(
+          padding: const EdgeInsets.fromLTRB(16, 8, 16, 4),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Flexible(
+                      flex: 1,
+                      child: TextField(
+                        keyboardType: TextInputType.number,
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(),
+                          labelText: 'No. Meja',
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 12,
+                    ),
+                    Flexible(
+                      flex: 3,
+                      child: TextField(
+                        keyboardType: TextInputType.text,
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(),
+                          labelText: 'Nama (opsional)',
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                TabBar(tabs: [Tab(text: "Makanan"), Tab(text: "Minuman")]),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.7,
+                  child: TabBarView(children: [
+                    ListView(
+                      children: [
+                        ItemCard(nama_item: "Soto"),
+                        ItemCard(nama_item: "Bubur"),
+                        ItemCard(nama_item: "Timlo"),
+                        ItemCard(nama_item: "Bakmoy"),
+                        ItemCard(nama_item: "naso"),
+                        ItemCard(nama_item: "asdasdad")
+                      ],
+                    ),
+                    ListView(
+                      children: [
+                        ItemCard(nama_item: "Teh"),
+                        ItemCard(nama_item: "Jeruk"),
+                        ItemCard(nama_item: "Teh Kampul"),
+                        ItemCard(nama_item: "Kopi")
+                      ],
+                    ),
+                  ]),
+                ),
+                Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(vertical: 8.0),
+                      child: FilledButton(
+                          onPressed: () {
+                            print("saved");
+                          },
+                          child: Text("Simpan Pesanan",
+                              style: TextStyle(fontSize: 14)
+                          )
                       ),
                     ),
                   ),
-                  SizedBox(
-                    width: 12,
-                  ),
-                  Flexible(
-                    flex: 3,
-                    child: TextField(
-                      keyboardType: TextInputType.text,
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: 'Nama (opsional)',
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 12.0),
-                child: Text(
-                  "Makanan",
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
-                ),
-              ),
-              Container(
-                height: MediaQuery.of(context).size.height * 0.4,
-                child: ListView(
-                  children: [ItemCard(), ItemCard(), ItemCard(), ItemCard()],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 12.0),
-                child: Text(
-                  "Minuman",
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
-                ),
-              ),
-              Container(
-                height: MediaQuery.of(context).size.height * 0.4,
-                child: ListView(
-                  children: [ItemCard(), ItemCard(), ItemCard(), ItemCard()],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 16),
-                child: Center(
-                  child: FilledButton(
-                      onPressed: () {
-                        print("saved");
-                      },
-                      child: Text("Simpan Pesanan")),
-                ),
-              )
-            ],
+              ],
+            ),
           ),
         ),
       ),
@@ -88,6 +95,10 @@ class AddOrder extends StatelessWidget {
 }
 
 class ItemCard extends StatelessWidget {
+  final String nama_item;
+
+  ItemCard({required this.nama_item});
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -100,17 +111,17 @@ class ItemCard extends StatelessWidget {
               padding: const EdgeInsets.all(16.0),
               child: Row(
                 children: [
-                  const Column(
+                  Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Nama Makanan",
+                        nama_item,
                         textAlign: TextAlign.start,
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontWeight: FontWeight.w800, fontSize: 16),
                       ),
-                      Align(
+                      const Align(
                         alignment: Alignment.bottomLeft,
                         child: SizedBox(
                           width: 300,
@@ -131,7 +142,7 @@ class ItemCard extends StatelessWidget {
                       )
                     ],
                   ),
-                  Expanded(
+                  Flexible(
                     child: WheelChooser.integer(
                       minValue: 0,
                       maxValue: 30,
@@ -147,4 +158,9 @@ class ItemCard extends StatelessWidget {
       ),
     );
   }
+}
+
+List MakeList_makanan(String json_data) {
+  final List item_list = jsonDecode(json_data);
+  return item_list;
 }
