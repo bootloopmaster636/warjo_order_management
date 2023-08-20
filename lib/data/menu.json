@@ -1,0 +1,149 @@
+[
+  {
+    "nama": "Nasi Soto Ayam Kampung",
+    "jenis": "makanan",
+    "harga": 8000,
+    "jumlah": 0,
+    "catatan": ""
+  },
+  {
+    "nama": "Bubur Ayam Kampung",
+    "jenis": "makanan",
+    "harga":  8000,
+    "jumlah": 0,
+    "catatan": ""
+  },
+  {
+    "nama": "Nasi Timlo",
+    "jenis": "makanan",
+    "harga":  10000,
+    "jumlah": 0,
+    "catatan": ""
+  },
+  {
+    "nama": "Nasi Bakmoy",
+    "jenis": "makanan",
+    "harga":  10000,
+    "jumlah": 0,
+    "catatan": ""
+  },
+  {
+    "nama": "Nasi Soto Ayam Kampung UPSIZE",
+    "jenis": "makanan",
+    "harga":  10000,
+    "jumlah": 0,
+    "catatan": ""
+  },
+  {
+    "nama": "Nasi Timlo UPSIZE",
+    "jenis": "makanan",
+    "harga":  12000,
+    "jumlah": 0,
+    "catatan": ""
+  },
+  {
+    "nama": "Nasi Bakmoy Upsize",
+    "jenis": "makanan",
+    "harga":  12000,
+    "jumlah": 0,
+    "catatan": ""
+  },
+  {
+    "nama": "Nasi Putih",
+    "jenis": "makanan",
+    "harga":  4000,
+    "jumlah": 0,
+    "catatan": ""
+  },
+  {
+    "nama": "Telor Kecap",
+    "jenis": "makanan",
+    "harga":  4000,
+    "jumlah": 0,
+    "catatan": ""
+  },
+  {
+    "nama": "Es Teh Manis",
+    "jenis": "minuman",
+    "harga":  3000,
+    "jumlah": 0,
+    "catatan": ""
+  },
+  {
+    "nama": "Es Teh Tawar",
+    "jenis": "minuman",
+    "harga":  3000,
+    "jumlah": 0,
+    "catatan": ""
+  },
+  {
+    "nama": "Es Teh Mondo",
+    "jenis": "minuman",
+    "harga":  3000,
+    "jumlah": 0,
+    "catatan": ""
+  },
+  {
+    "nama": "Teh Manis",
+    "jenis": "minuman",
+    "harga":  3000,
+    "jumlah": 0,
+    "catatan": ""
+  },
+  {
+    "nama": "Teh Tawar",
+    "jenis": "minuman",
+    "harga":  3000,
+    "jumlah": 0,
+    "catatan": ""
+  },
+  {
+    "nama": "Teh Mondo",
+    "jenis": "minuman",
+    "harga":  3000,
+    "jumlah": 0,
+    "catatan": ""
+  },
+  {
+    "nama": "Es Teh Kampul",
+    "jenis": "minuman",
+    "harga":  4000,
+    "jumlah": 0,
+    "catatan": ""
+  },
+  {
+    "nama": "Teh Kampul",
+    "jenis": "minuman",
+    "harga":  4000,
+    "jumlah": 0,
+    "catatan": ""
+  },
+  {
+    "nama": "Es Jeruk Peras",
+    "jenis": "minuman",
+    "harga":  4000,
+    "jumlah": 0,
+    "catatan": ""
+  },
+  {
+    "nama": "Jeruk Peras",
+    "jenis": "minuman",
+    "harga":  4000,
+    "jumlah": 0,
+    "catatan": ""
+  },
+  {
+    "nama": "Es Kopi Hitam",
+    "jenis": "minuman",
+    "harga":  5000,
+    "jumlah": 0,
+    "catatan": ""
+  },
+  {
+    "nama": "Kopi Hitam",
+    "jenis": "minuman",
+    "harga":  5000,
+    "jumlah": 0,
+    "catatan": ""
+  }
+]
