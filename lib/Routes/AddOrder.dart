@@ -4,18 +4,16 @@ import 'package:wheel_chooser/wheel_chooser.dart';
 class AddOrder extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme
-          .of(context)
-          .colorScheme
-          .surface,
+      backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
         title: Text('Tambah Order'),
       ),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(16, 8, 16, 4),
+      body: Padding(
+        padding: const EdgeInsets.fromLTRB(16, 8, 16, 4),
+        child: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Row(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -45,14 +43,41 @@ class AddOrder extends StatelessWidget {
                   ),
                 ],
               ),
-              const SizedBox(width: 80, height: 20),
-              ListView(
-                shrinkWrap: true,
-                children: [
-                  ItemCard(),
-                  ItemCard(),
-                  ItemCard()
-                ],
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 12.0),
+                child: Text(
+                  "Makanan",
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+                ),
+              ),
+              Container(
+                height: MediaQuery.of(context).size.height * 0.4,
+                child: ListView(
+                  children: [ItemCard(), ItemCard(), ItemCard(), ItemCard()],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 12.0),
+                child: Text(
+                  "Minuman",
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+                ),
+              ),
+              Container(
+                height: MediaQuery.of(context).size.height * 0.4,
+                child: ListView(
+                  children: [ItemCard(), ItemCard(), ItemCard(), ItemCard()],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 16),
+                child: Center(
+                  child: FilledButton(
+                      onPressed: () {
+                        print("saved");
+                      },
+                      child: Text("Simpan Pesanan")),
+                ),
               )
             ],
           ),
@@ -67,13 +92,10 @@ class ItemCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: Card(
-        color: Theme
-            .of(context)
-            .colorScheme
-            .surfaceVariant,
+        color: Theme.of(context).colorScheme.surface,
         child: SizedBox(
           width: 420,
-          height: 120,
+          height: 112,
           child: Padding(
               padding: const EdgeInsets.all(16.0),
               child: Row(
@@ -83,10 +105,10 @@ class ItemCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Nasi Soto Ayam Kampung",
+                        "Nama Makanan",
                         textAlign: TextAlign.start,
                         style: TextStyle(
-                            fontWeight: FontWeight.w800, fontSize: 18),
+                            fontWeight: FontWeight.w800, fontSize: 16),
                       ),
                       Align(
                         alignment: Alignment.bottomLeft,
@@ -101,7 +123,7 @@ class ItemCard extends StatelessWidget {
                                 labelText: "Catatan Pesanan",
                                 isDense: true,
                                 contentPadding:
-                                EdgeInsets.symmetric(vertical: 6)),
+                                    EdgeInsets.symmetric(vertical: 0)),
                             style: TextStyle(fontSize: 14),
                             maxLines: 1,
                           ),
@@ -109,7 +131,7 @@ class ItemCard extends StatelessWidget {
                       )
                     ],
                   ),
-                  Flexible(
+                  Expanded(
                     child: WheelChooser.integer(
                       minValue: 0,
                       maxValue: 30,
