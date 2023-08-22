@@ -1,11 +1,12 @@
-import 'dart:convert';
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:wheel_chooser/wheel_chooser.dart';
 
+import '../classes/item.dart';
+
 class AddOrder extends StatelessWidget {
+  List<item> itemMakanan = item.makeMenuMakanan();
+  List<item> itemMinuman = item.makeMenuMinuman();
+
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 2,
@@ -50,7 +51,7 @@ class AddOrder extends StatelessWidget {
                       ),
                     ],
                   ),
-                  TabBar(tabs: [
+                  const TabBar(tabs: [
                     Tab(
                         child: Row(
                       mainAxisSize: MainAxisSize.min,
@@ -79,24 +80,16 @@ class AddOrder extends StatelessWidget {
                     child: SizedBox(
                       height: MediaQuery.of(context).size.height * 0.66,
                       child: TabBarView(children: [
-                        ListView(
-                          children: [
-                            ItemCard(nama_item: "Soto"),
-                            ItemCard(nama_item: "Bubur"),
-                            ItemCard(nama_item: "Timlo"),
-                            ItemCard(nama_item: "Bakmoy"),
-                            ItemCard(nama_item: "naso"),
-                            ItemCard(nama_item: "asdasdad")
-                          ],
-                        ),
-                        ListView(
-                          children: [
-                            ItemCard(nama_item: "Teh"),
-                            ItemCard(nama_item: "Jeruk"),
-                            ItemCard(nama_item: "Teh Kampul"),
-                            ItemCard(nama_item: "Kopi")
-                          ],
-                        ),
+                        ListView.builder(
+                            itemCount: itemMakanan.length,
+                            itemBuilder: (context, index) {
+                              return ItemCard(nama_item: itemMakanan[index].nama);
+                            }),
+                        ListView.builder(
+                            itemCount: itemMinuman.length,
+                            itemBuilder: (context, index) {
+                              return ItemCard(nama_item: itemMinuman[index].nama);
+                            }),
                       ]),
                     ),
                   )
@@ -182,26 +175,3 @@ class ItemCard extends StatelessWidget {
     );
   }
 }
-
-List MakeList_makanan(String json_data) {
-  final List item_list = jsonDecode(json_data);
-  return item_list;
-}
-
-Future<String?> getDownloadsDirectory() async {
-  Directory? directory;
-  try {
-    if (Platform.isIOS) {
-      directory = await getApplicationDocumentsDirectory();
-    } else {
-      directory = Directory('/storage/emulated/0/Download');
-      // Put file in global download folder, if for an unknown reason it didn't exist, we fallback
-      // ignore: avoid_slow_async_io
-      if (!await directory.exists()) directory = await getExternalStorageDirectory();
-    }
-  } catch (err, stack) {
-    print("Cannot get download folder path");
-  }
-  return directory?.path;
-}
-
