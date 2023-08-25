@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:warjo_order_management/classes/pesanan.dart';
 import 'package:wheel_chooser/wheel_chooser.dart';
 
 import '../classes/item.dart';
 
+final tempPesananProvider = ChangeNotifierProvider((ref) => pesanan().initPesanan());
+
 class AddOrder extends StatelessWidget {
-  List<item> itemMakanan = item.makeMenuMakanan();
-  List<item> itemMinuman = item.makeMenuMinuman();
+  const AddOrder({Key? key}) : super(key: key);
 
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -80,16 +83,24 @@ class AddOrder extends StatelessWidget {
                     child: SizedBox(
                       height: MediaQuery.of(context).size.height * 0.66,
                       child: TabBarView(children: [
-                        ListView.builder(
-                            itemCount: itemMakanan.length,
+                        Consumer(builder: (context, ref, _) {
+                          final makananItems = ref.watch(tempPesananProvider).daftar_pesanan;
+                          return ListView.builder(
+                            itemCount: makananItems?.length,
                             itemBuilder: (context, index) {
-                              return ItemCard(nama_item: itemMakanan[index].nama);
-                            }),
-                        ListView.builder(
-                            itemCount: itemMinuman.length,
+                              return ItemCard(items: makananItems![index], id: index);
+                            },
+                          );
+                        }),
+                        Consumer(builder: (context, ref, _) {
+                          final minumanItems = ref.watch(tempPesananProvider).daftar_pesanan;
+                          return ListView.builder(
+                            itemCount: minumanItems?.length,
                             itemBuilder: (context, index) {
-                              return ItemCard(nama_item: itemMinuman[index].nama);
-                            }),
+                              return ItemCard(items: minumanItems![index], id: index + 13); //13 is the index of the first minuman item
+                            },
+                          );
+                        }),
                       ]),
                     ),
                   )
@@ -102,21 +113,31 @@ class AddOrder extends StatelessWidget {
                 onPressed: () {
                   print("saved");
                 },
-                child: Text("Simpan Pesanan",
-                    style:
-                        TextStyle(fontSize: 16, fontWeight: FontWeight.w500))),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                        "Simpan Pesanan",
+                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)
+                    ),
+                    Consumer(builder: (context, ref, _) {
+                      return Text("Total Rp. ${ref.watch(tempPesananProvider).total_harga.toString()}");
+                    }),
+                  ],
+                )),
           )),
     );
   }
 }
 
-class ItemCard extends StatelessWidget {
-  final String nama_item;
-
-  ItemCard({required this.nama_item});
+class ItemCard extends ConsumerWidget {
+  final item items;
+  final int id;
+  ItemCard({required this.items, required this.id});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Container(
       child: Card(
         color: Theme.of(context).colorScheme.surface,
@@ -132,16 +153,22 @@ class ItemCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        nama_item,
+                        items.nama?.toString() ?? "null",
                         textAlign: TextAlign.start,
                         style: const TextStyle(
                             fontWeight: FontWeight.w800, fontSize: 16),
                       ),
-                      const Align(
+                      Text(
+                        "Rp. ${items.harga.toString()}",
+                        textAlign: TextAlign.start,
+                        style: const TextStyle(
+                            fontWeight: FontWeight.w400, fontSize: 14),
+                      ),
+                      Align(
                         alignment: Alignment.bottomLeft,
                         child: SizedBox(
-                          width: 300,
-                          child: TextField(
+                          width: MediaQuery.of(context).size.width * 0.64,
+                          child: const TextField(
                             decoration: InputDecoration(
                                 icon: Icon(
                                   Icons.edit,
@@ -153,6 +180,7 @@ class ItemCard extends StatelessWidget {
                                     EdgeInsets.symmetric(vertical: 0)),
                             style: TextStyle(fontSize: 14),
                             maxLines: 1,
+
                           ),
                         ),
                       )
@@ -164,10 +192,11 @@ class ItemCard extends StatelessWidget {
                       maxValue: 30,
                       initValue: 0,
                       onValueChanged: (s) {
-                        print(s.toString());
+                        ref.refresh(tempPesananProvider).setItemCount(id, s);
+                        print(ref.read(tempPesananProvider).daftar_pesanan![id].jumlah);
                       },
                     ),
-                  )
+                  ),
                 ],
               )),
         ),

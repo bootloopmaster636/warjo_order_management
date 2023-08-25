@@ -1,12 +1,16 @@
 //deps
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 //routes
 import 'Routes/AddOrder.dart';
 
+//classes
+import 'classes/item.dart';
+
 void main() {
-  runApp(const MyApp());
+  runApp(ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -19,12 +23,12 @@ class MyApp extends StatelessWidget {
       title: 'WARJO Order Management',
       theme: ThemeData(
           brightness: Brightness.light,
-          colorSchemeSeed: Color.fromRGBO(46, 167, 67, 1.0),
+          colorSchemeSeed: Color.fromRGBO(109, 178, 53, 1.0),
           useMaterial3: true,
           fontFamily: GoogleFonts.varelaRound().fontFamily),
       darkTheme: ThemeData(
           brightness: Brightness.dark,
-          colorSchemeSeed: Color.fromRGBO(46, 167, 67, 1.0),
+          colorSchemeSeed: Color.fromRGBO(109, 178, 53, 1.0),
           useMaterial3: true,
           fontFamily: GoogleFonts.varelaRound().fontFamily),
       themeMode: ThemeMode.system,
@@ -52,6 +56,7 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(
           widget.title,
         ),
+        centerTitle: true,
       ),
       body: Center(child: Text("test")),
       floatingActionButton: FloatingActionButton.extended(
