@@ -100,4 +100,8 @@ class item {
   set jumlah(int? value) {
     _jumlah = value;
   }
+
+  set catatan(String? note) {
+    _catatan = note;
+  }
 }

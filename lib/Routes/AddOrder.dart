@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:warjo_order_management/classes/pesanan.dart';
 import 'package:wheel_chooser/wheel_chooser.dart';
 
 import '../classes/item.dart';
 
-final tempPesananProvider = ChangeNotifierProvider((ref) => pesanan().initPesanan());
+final tempPesananProvider =
+    ChangeNotifierProvider((ref) => pesanan().initPesanan());
+var formatter = NumberFormat('###,###,###');
 
 class AddOrder extends StatelessWidget {
   const AddOrder({Key? key}) : super(key: key);
@@ -85,28 +88,44 @@ class AddOrder extends StatelessWidget {
                       width: MediaQuery.of(context).size.width,
                       child: TabBarView(children: [
                         Consumer(builder: (context, ref, _) {
-                          final makananItems = (ref.watch(tempPesananProvider).daftar_pesanan)?.where((item) => item.jenis == "Makanan").toList();
-                          return GridView.builder (
-                            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: (MediaQuery.of(context).size.width / 480).round(),
+                          final makananItems =
+                              (ref.watch(tempPesananProvider).daftar_pesanan)
+                                  ?.where((item) => item.jenis == "Makanan")
+                                  .toList();
+                          return GridView.builder(
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount:
+                                  (MediaQuery.of(context).size.width / 480)
+                                      .round(),
                               mainAxisExtent: 120,
                             ),
                             itemCount: makananItems?.length,
                             itemBuilder: (context, index) {
-                              return ItemCard(items: makananItems![index], id: index);
+                              return ItemCard(
+                                  items: makananItems![index], id: index);
                             },
                           );
                         }),
                         Consumer(builder: (context, ref, _) {
-                          final minumanItems = (ref.watch(tempPesananProvider).daftar_pesanan)?.where((item) => item.jenis == "Minuman").toList();
-                          return GridView.builder (
-                            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: (MediaQuery.of(context).size.width / 400).round(),
+                          final minumanItems =
+                              (ref.watch(tempPesananProvider).daftar_pesanan)
+                                  ?.where((item) => item.jenis == "Minuman")
+                                  .toList();
+                          return GridView.builder(
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount:
+                                  (MediaQuery.of(context).size.width / 400)
+                                      .round(),
                               mainAxisExtent: 120,
                             ),
                             itemCount: minumanItems?.length,
                             itemBuilder: (context, index) {
-                              return ItemCard(items: minumanItems![index], id: index + 13); //13 is the start index of "minuman" items
+                              return ItemCard(
+                                  items: minumanItems![index],
+                                  id: index +
+                                      13); //13 is the start index of "minuman" items
                             },
                           );
                         }),
@@ -126,13 +145,12 @@ class AddOrder extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text(
-                        "Simpan Pesanan",
-                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)
-                    ),
+                    Text("Simpan Pesanan",
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.w500)),
                     Consumer(builder: (context, ref, _) {
                       return Text(
-                          "Total Rp. ${ref.watch(tempPesananProvider).total_harga.toString()}",
+                        "Total Rp. ${formatter.format(ref.watch(tempPesananProvider).total_harga)}",
                         style: TextStyle(fontWeight: FontWeight.w600),
                       );
                     }),
@@ -146,7 +164,10 @@ class AddOrder extends StatelessWidget {
 class ItemCard extends ConsumerWidget {
   final item items;
   final int id;
+
   ItemCard({required this.items, required this.id});
+
+  TextEditingController _catatanPesananController = TextEditingController();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -178,10 +199,11 @@ class ItemCard extends ConsumerWidget {
                       ),
                       Align(
                         alignment: Alignment.bottomLeft,
-                        child: SizedBox (
+                        child: SizedBox(
                           width: 300,
-                          child: const TextField(
-                            decoration: InputDecoration (
+                          child: TextField(
+                            controller: _catatanPesananController,
+                            decoration: InputDecoration(
                                 icon: Icon(
                                   Icons.edit,
                                   size: 16,
@@ -192,20 +214,30 @@ class ItemCard extends ConsumerWidget {
                                     EdgeInsets.symmetric(vertical: 0)),
                             style: TextStyle(fontSize: 14),
                             maxLines: 1,
-
+                            onSubmitted: (s) {
+                              ref.read(tempPesananProvider).setCatatanPesanan(id, s);
+                              _catatanPesananController.text = items.catatan!;
+                              print("var s = ${s}, var items = ${items.catatan}");
+                            },
                           ),
                         ),
                       )
                     ],
                   ),
-                  Expanded (
+                  Expanded(
                     child: WheelChooser.integer(
                       minValue: 0,
                       maxValue: 30,
-                      initValue: ref.read(tempPesananProvider).daftar_pesanan?[id].jumlah,
+                      initValue: ref
+                          .read(tempPesananProvider)
+                          .daftar_pesanan?[id]
+                          .jumlah,
                       onValueChanged: (s) {
                         ref.read(tempPesananProvider).setItemCount(id, s);
-                        print(ref.read(tempPesananProvider).daftar_pesanan![id].jumlah);
+                        print(ref
+                            .read(tempPesananProvider)
+                            .daftar_pesanan![id]
+                            .jumlah);
                       },
                     ),
                   ),

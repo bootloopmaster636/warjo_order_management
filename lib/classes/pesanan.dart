@@ -30,6 +30,7 @@ class pesanan extends ChangeNotifier {
     nama_pemesan = "";
     waktu_pemesanan = DateTime.now();
     daftar_pesanan = item.makeMenu();
+    total_harga = 0;
     return this;
   }
 
@@ -45,6 +46,14 @@ class pesanan extends ChangeNotifier {
     List<item>? daftarTemp = daftar_pesanan;
     daftarTemp?[id].jumlah = count;
     total_harga = setTotalHarga();
+    daftar_pesanan = daftarTemp;
+    notifyListeners();
+    return this;
+  }
+
+  pesanan setCatatanPesanan (int id, String catatan) {
+    List<item>? daftarTemp = daftar_pesanan;
+    daftarTemp?[id].catatan = catatan;
     daftar_pesanan = daftarTemp;
     notifyListeners();
     return this;
