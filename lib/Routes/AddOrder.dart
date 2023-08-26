@@ -82,10 +82,15 @@ class AddOrder extends StatelessWidget {
                     padding: EdgeInsets.symmetric(vertical: 8),
                     child: SizedBox(
                       height: MediaQuery.of(context).size.height * 0.66,
+                      width: MediaQuery.of(context).size.width,
                       child: TabBarView(children: [
                         Consumer(builder: (context, ref, _) {
-                          final makananItems = ref.watch(tempPesananProvider).daftar_pesanan;
-                          return ListView.builder(
+                          final makananItems = (ref.watch(tempPesananProvider).daftar_pesanan)?.where((item) => item.jenis == "Makanan").toList();
+                          return GridView.builder (
+                            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: (MediaQuery.of(context).size.width / 480).round(),
+                              mainAxisExtent: 120,
+                            ),
                             itemCount: makananItems?.length,
                             itemBuilder: (context, index) {
                               return ItemCard(items: makananItems![index], id: index);
@@ -93,11 +98,15 @@ class AddOrder extends StatelessWidget {
                           );
                         }),
                         Consumer(builder: (context, ref, _) {
-                          final minumanItems = ref.watch(tempPesananProvider).daftar_pesanan;
-                          return ListView.builder(
+                          final minumanItems = (ref.watch(tempPesananProvider).daftar_pesanan)?.where((item) => item.jenis == "Minuman").toList();
+                          return GridView.builder (
+                            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: (MediaQuery.of(context).size.width / 400).round(),
+                              mainAxisExtent: 120,
+                            ),
                             itemCount: minumanItems?.length,
                             itemBuilder: (context, index) {
-                              return ItemCard(items: minumanItems![index], id: index + 13); //13 is the index of the first minuman item
+                              return ItemCard(items: minumanItems![index], id: index + 13); //13 is the start index of "minuman" items
                             },
                           );
                         }),
@@ -122,7 +131,10 @@ class AddOrder extends StatelessWidget {
                         style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)
                     ),
                     Consumer(builder: (context, ref, _) {
-                      return Text("Total Rp. ${ref.watch(tempPesananProvider).total_harga.toString()}");
+                      return Text(
+                          "Total Rp. ${ref.watch(tempPesananProvider).total_harga.toString()}",
+                        style: TextStyle(fontWeight: FontWeight.w600),
+                      );
                     }),
                   ],
                 )),
@@ -142,7 +154,7 @@ class ItemCard extends ConsumerWidget {
       child: Card(
         color: Theme.of(context).colorScheme.surface,
         child: SizedBox(
-          width: 420,
+          width: 400,
           height: 112,
           child: Padding(
               padding: const EdgeInsets.all(16.0),
@@ -166,10 +178,10 @@ class ItemCard extends ConsumerWidget {
                       ),
                       Align(
                         alignment: Alignment.bottomLeft,
-                        child: SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.64,
+                        child: SizedBox (
+                          width: 300,
                           child: const TextField(
-                            decoration: InputDecoration(
+                            decoration: InputDecoration (
                                 icon: Icon(
                                   Icons.edit,
                                   size: 16,
@@ -186,13 +198,13 @@ class ItemCard extends ConsumerWidget {
                       )
                     ],
                   ),
-                  Flexible(
+                  Expanded (
                     child: WheelChooser.integer(
                       minValue: 0,
                       maxValue: 30,
-                      initValue: 0,
+                      initValue: ref.read(tempPesananProvider).daftar_pesanan?[id].jumlah,
                       onValueChanged: (s) {
-                        ref.refresh(tempPesananProvider).setItemCount(id, s);
+                        ref.read(tempPesananProvider).setItemCount(id, s);
                         print(ref.read(tempPesananProvider).daftar_pesanan![id].jumlah);
                       },
                     ),
