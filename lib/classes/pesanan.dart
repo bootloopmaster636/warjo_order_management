@@ -55,7 +55,6 @@ class pesanan extends ChangeNotifier {
     List<item>? daftarTemp = daftar_pesanan;
     daftarTemp?[id].catatan = catatan;
     daftar_pesanan = daftarTemp;
-    notifyListeners();
     return this;
   }
 }

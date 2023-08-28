@@ -23,12 +23,12 @@ class MyApp extends StatelessWidget {
       title: 'WARJO Order Management',
       theme: ThemeData(
           brightness: Brightness.light,
-          colorSchemeSeed: Color.fromRGBO(109, 178, 53, 1.0),
+          colorSchemeSeed: const Color.fromRGBO(69, 245, 66, 1.0),
           useMaterial3: true,
           fontFamily: GoogleFonts.varelaRound().fontFamily),
       darkTheme: ThemeData(
           brightness: Brightness.dark,
-          colorSchemeSeed: Color.fromRGBO(109, 178, 53, 1.0),
+          colorSchemeSeed: const Color.fromRGBO(245, 102, 66, 1.0),
           useMaterial3: true,
           fontFamily: GoogleFonts.varelaRound().fontFamily),
       themeMode: ThemeMode.system,
