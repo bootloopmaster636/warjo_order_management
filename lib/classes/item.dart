@@ -4,6 +4,7 @@ class item {
   int? _harga;
   int? _jumlah;
   String? _catatan;
+  int? _id;
 
   item(
       {int id = 0,
@@ -12,7 +13,8 @@ class item {
       int harga = 0,
       int jumlah = 0,
       String? catatan})
-      : _nama = nama,
+      : _id = 0,
+        _nama = nama,
         _jenis = jenis,
         _harga = harga,
         _jumlah = jumlah,
@@ -96,6 +98,8 @@ class item {
   int? get jumlah => _jumlah;
 
   int? get harga => _harga;
+
+  int? get id => _id;
 
   set jumlah(int? value) {
     _jumlah = value;
