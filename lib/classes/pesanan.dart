@@ -45,7 +45,7 @@ class pesanan extends ChangeNotifier {
 
   pesanan setItemCount (int id, int count) {
     List<item>? daftarTemp = daftar_pesanan;
-    daftarTemp?[id].jumlah = count;
+    if (count >= 0) daftarTemp?[id].jumlah = count;
     total_harga = setTotalHarga();
     daftar_pesanan = daftarTemp;
     notifyListeners();
