@@ -2,60 +2,60 @@ import 'package:flutter/cupertino.dart';
 import 'item.dart';
 
 class pesanan extends ChangeNotifier {
-  int? no_meja;
-  String? nama_pemesan;
-  DateTime? waktu_pemesanan;
-  List<item>? daftar_pesanan;
-  int? total_harga;
+  int? noMeja;
+  String? namaPemesan;
+  DateTime? waktuPemesanan;
+  List<item>? daftarPesanan;
+  int? totalHarga;
 
-  pesanan({this.no_meja, this.nama_pemesan, this.waktu_pemesanan, this.daftar_pesanan, this.total_harga}); //constructor?
+  pesanan({this.noMeja, this.namaPemesan, this.waktuPemesanan, this.daftarPesanan, this.totalHarga}); //constructor?
 
   pesanan setNamaPemesan(String nama) {
-    nama_pemesan = nama;
+    namaPemesan = nama;
     return this;
   }
 
   pesanan setNoMeja(int no) {
-    no_meja = no;
+    noMeja = no;
     return this;
   }
 
   pesanan initDaftarPesanan() {
-    daftar_pesanan = item.makeMenu();
+    daftarPesanan = item.makeMenu();
     return this;
   }
 
   pesanan initPesanan() {
-    no_meja = 0;
-    nama_pemesan = "";
-    waktu_pemesanan = DateTime.now();
-    daftar_pesanan = item.makeMenu();
-    total_harga = 0;
+    noMeja = 0;
+    namaPemesan = "";
+    waktuPemesanan = DateTime.now();
+    daftarPesanan = item.makeMenu();
+    totalHarga = 0;
     notifyListeners();
     return this;
   }
 
   int setTotalHarga() {
     int total = 0;
-    daftar_pesanan!.forEach((element) {
+    for (var element in daftarPesanan!) {
       total = total + (element.harga! * element.jumlah!);
-    });
+    }
     return total;
   }
 
   pesanan setItemCount (int id, int count) {
-    List<item>? daftarTemp = daftar_pesanan;
+    List<item>? daftarTemp = daftarPesanan;
     if (count >= 0) daftarTemp?[id].jumlah = count;
-    total_harga = setTotalHarga();
-    daftar_pesanan = daftarTemp;
+    totalHarga = setTotalHarga();
+    daftarPesanan = daftarTemp;
     notifyListeners();
     return this;
   }
 
   pesanan setCatatanPesanan (int id, String catatan) {
-    List<item>? daftarTemp = daftar_pesanan;
+    List<item>? daftarTemp = daftarPesanan;
     daftarTemp?[id].catatan = catatan;
-    daftar_pesanan = daftarTemp;
+    daftarPesanan = daftarTemp;
     notifyListeners();
     return this;
   }

@@ -108,7 +108,7 @@ class AddOrder extends ConsumerWidget {
                       child: TabBarView(children: [
                         Consumer(builder: (context, ref, _) {
                           final makananItems =
-                              (ref.watch(tempPesananProvider).daftar_pesanan)?.where((data) => data.jenis == "Makanan").toList();
+                              (ref.watch(tempPesananProvider).daftarPesanan)?.where((data) => data.jenis == "Makanan").toList();
                           return GridView.builder(
                             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: (MediaQuery.of(context).size.width / 480).round(),
@@ -122,7 +122,7 @@ class AddOrder extends ConsumerWidget {
                         }),
                         Consumer(builder: (context, ref, _) {
                           final minumanItems =
-                              (ref.watch(tempPesananProvider).daftar_pesanan)?.where((data) => data.jenis == "Minuman").toList();
+                              (ref.watch(tempPesananProvider).daftarPesanan)?.where((data) => data.jenis == "Minuman").toList();
                           return GridView.builder(
                               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                                 crossAxisCount: (MediaQuery.of(context).size.width / 400).round(),
@@ -135,7 +135,7 @@ class AddOrder extends ConsumerWidget {
                         }),
                         Consumer(builder: (context, ref, _) {
                           final tambahanItems =
-                              (ref.watch(tempPesananProvider).daftar_pesanan)?.where((data) => data.jenis == "Tambahan").toList();
+                              (ref.watch(tempPesananProvider).daftarPesanan)?.where((data) => data.jenis == "Tambahan").toList();
                           return GridView.builder(
                               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                                 crossAxisCount: (MediaQuery.of(context).size.width / 400).round(),
@@ -148,7 +148,7 @@ class AddOrder extends ConsumerWidget {
                         }),
                         Consumer(builder: (context, ref, _) {
                           final bungkusItems =
-                              (ref.watch(tempPesananProvider).daftar_pesanan)?.where((data) => data.jenis == "Bungkus").toList();
+                              (ref.watch(tempPesananProvider).daftarPesanan)?.where((data) => data.jenis == "Bungkus").toList();
                           return GridView.builder(
                               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                                 crossAxisCount: (MediaQuery.of(context).size.width / 400).round(),
@@ -183,7 +183,7 @@ class AddOrder extends ConsumerWidget {
                     const Spacer(),
                     Consumer(builder: (context, ref, _) {
                       return Text(
-                        "Rp. ${formatter.format(ref.watch(tempPesananProvider).total_harga)}",
+                        "Rp. ${formatter.format(ref.watch(tempPesananProvider).totalHarga)}",
                         style: const TextStyle(fontWeight: FontWeight.w600),
                       );
                     }),
@@ -320,23 +320,23 @@ class ItemCardState extends ConsumerState<ItemCard> {
   }
 
   Future<void> _displayEditorCatatanPesanan(BuildContext context, WidgetRef ref, int id) async {
-    final TextEditingController _textFieldController = TextEditingController();
+    final TextEditingController textFieldController = TextEditingController();
     return showDialog(
         context: context,
         builder: (context) {
           return AlertDialog(
             title: const Text("Edit Catatan Pesanan"),
             content: TextField(
-              controller: _textFieldController,
-              decoration: InputDecoration(hintText: "Ganti catatan pesanan"),
+              controller: textFieldController,
+              decoration: const InputDecoration(hintText: "Ganti catatan pesanan"),
             ),
             actions: [
               FilledButton(
                   onPressed: () {
-                    ref.read(tempPesananProvider).setCatatanPesanan(id, _textFieldController.text);
+                    ref.read(tempPesananProvider).setCatatanPesanan(id, textFieldController.text);
                     Navigator.pop(context);
                   },
-                  child: Text("Simpan")),
+                  child: const Text("Simpan")),
             ],
           );
         });
