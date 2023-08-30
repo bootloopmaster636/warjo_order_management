@@ -9,17 +9,32 @@ final tempPesananProvider =
     ChangeNotifierProvider((ref) => pesanan().initPesanan());
 var formatter = NumberFormat('###,###,###');
 
-class AddOrder extends StatelessWidget {
+class AddOrder extends ConsumerWidget {
   const AddOrder({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return DefaultTabController(
       length: 4,
       child: Scaffold(
           backgroundColor: Theme.of(context).colorScheme.background,
           appBar: AppBar(
             title: const Text('Tambah Order'),
+            actions: [
+              TextButton(
+                  onPressed: () {
+                    ref.read(tempPesananProvider).initPesanan();
+                  },
+                  child: const Row(
+                    children: [
+                      Icon(Icons.lock_reset_outlined),
+                      SizedBox(
+                        width: 4,
+                      ),
+                      Text("Reset")
+                    ],
+                  ))
+            ],
           ),
           body: Padding(
             padding: const EdgeInsets.fromLTRB(16, 8, 16, 4),
@@ -101,7 +116,8 @@ class AddOrder extends StatelessWidget {
                             itemCount: makananItems?.length,
                             itemBuilder: (context, index) {
                               return ItemCard(
-                                  items: makananItems![index], id: makananItems[index].id);
+                                  items: makananItems![index],
+                                  id: makananItems[index].id);
                             },
                           );
                         }),
@@ -161,7 +177,8 @@ class AddOrder extends StatelessWidget {
                               itemCount: bungkusItems?.length,
                               itemBuilder: (context, index) {
                                 return ItemCard(
-                                    items: bungkusItems![index], id: bungkusItems[index].id);
+                                    items: bungkusItems![index],
+                                    id: bungkusItems[index].id);
                               });
                         }),
                       ]),
@@ -209,8 +226,7 @@ class AddOrder extends StatelessWidget {
 }
 
 class ItemCard extends ConsumerStatefulWidget {
-  const ItemCard({Key? key, required this.items, required this.id})
-      : super(key: key);
+  const ItemCard({super.key, required this.items, required this.id});
 
   final item items;
   final int? id;
@@ -229,7 +245,7 @@ class ItemCardState extends ConsumerState<ItemCard> {
   @override
   Widget build(BuildContext context) {
     return Card(
-        elevation: 3,
+        elevation: 1,
         clipBehavior: Clip.antiAliasWithSaveLayer,
         color: Theme.of(context).colorScheme.surface,
         child: Row(
@@ -240,10 +256,14 @@ class ItemCardState extends ConsumerState<ItemCard> {
               flex: 1,
               child: ElevatedButton(
                   onPressed: () {
-                    print("counter decrement");
+                    ref
+                        .read(tempPesananProvider)
+                        .setItemCount(widget.id!, widget.items.jumlah! - 1);
                   },
                   onLongPress: () {
-                    print("counter bigstep decrement");
+                    ref
+                        .read(tempPesananProvider)
+                        .setItemCount(widget.id!, widget.items.jumlah! - 5);
                   },
                   style: ElevatedButton.styleFrom(
                       backgroundColor:
@@ -289,8 +309,9 @@ class ItemCardState extends ConsumerState<ItemCard> {
                                     Icon(
                                       Icons.edit_note_outlined,
                                       size: 14,
-                                      color:
-                                          Theme.of(context).colorScheme.secondary,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .secondary,
                                     ),
                                     const SizedBox(
                                       width: 8,
@@ -315,10 +336,14 @@ class ItemCardState extends ConsumerState<ItemCard> {
               flex: 1,
               child: ElevatedButton(
                   onPressed: () {
-                    print("counter increment");
+                    ref
+                        .read(tempPesananProvider)
+                        .setItemCount(widget.id!, widget.items.jumlah! + 1);
                   },
                   onLongPress: () {
-                    print("counter bigstep increment");
+                    ref
+                        .read(tempPesananProvider)
+                        .setItemCount(widget.id!, widget.items.jumlah! + 5);
                   },
                   style: ElevatedButton.styleFrom(
                       backgroundColor:

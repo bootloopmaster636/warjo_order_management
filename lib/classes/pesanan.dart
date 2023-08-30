@@ -31,6 +31,7 @@ class pesanan extends ChangeNotifier {
     waktu_pemesanan = DateTime.now();
     daftar_pesanan = item.makeMenu();
     total_harga = 0;
+    notifyListeners();
     return this;
   }
 

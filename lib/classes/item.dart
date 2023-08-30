@@ -13,12 +13,12 @@ class item {
       int harga = 0,
       int jumlah = 0,
       String? catatan})
-      : _id = 0,
+      : _id = id,
         _nama = nama,
         _jenis = jenis,
         _harga = harga,
         _jumlah = jumlah,
-        _catatan = catatan;
+        _catatan = "Tulis Catatan Pesanan...";
 
 
   static List<item> makeMenu() {
