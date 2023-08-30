@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:warjo_order_management/classes/pesanan.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
+import 'package:warjo_order_management/classes/pesanan.dart';
 import '../classes/item.dart';
 
-final tempPesananProvider =
-    ChangeNotifierProvider((ref) => pesanan().initPesanan());
+final tempPesananProvider = ChangeNotifierProvider((ref) => pesanan().initPesanan());
 var formatter = NumberFormat('###,###,###');
 
 class AddOrder extends ConsumerWidget {
@@ -23,15 +23,21 @@ class AddOrder extends ConsumerWidget {
             actions: [
               TextButton(
                   onPressed: () {
+                    Fluttertoast.showToast(msg: "Tahan tombol reset untuk melakukan reset");
+                  },
+                  onLongPress: () {
                     ref.read(tempPesananProvider).initPesanan();
                   },
-                  child: const Row(
+                  child: Row(
                     children: [
-                      Icon(Icons.lock_reset_outlined),
-                      SizedBox(
+                      Icon(
+                        Icons.lock_reset_outlined,
+                        color: Theme.of(context).colorScheme.error,
+                      ),
+                      const SizedBox(
                         width: 4,
                       ),
-                      Text("Reset")
+                      Text("Reset", style: TextStyle(color: Theme.of(context).colorScheme.error)),
                     ],
                   ))
             ],
@@ -102,83 +108,55 @@ class AddOrder extends ConsumerWidget {
                       child: TabBarView(children: [
                         Consumer(builder: (context, ref, _) {
                           final makananItems =
-                              (ref.watch(tempPesananProvider).daftar_pesanan)
-                                  ?.where((data) => data.jenis == "Makanan")
-                                  .toList();
+                              (ref.watch(tempPesananProvider).daftar_pesanan)?.where((data) => data.jenis == "Makanan").toList();
                           return GridView.builder(
-                            gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount:
-                                  (MediaQuery.of(context).size.width / 480)
-                                      .round(),
+                            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: (MediaQuery.of(context).size.width / 480).round(),
                               mainAxisExtent: 120,
                             ),
                             itemCount: makananItems?.length,
                             itemBuilder: (context, index) {
-                              return ItemCard(
-                                  items: makananItems![index],
-                                  id: makananItems[index].id);
+                              return ItemCard(items: makananItems![index], id: makananItems[index].id);
                             },
                           );
                         }),
                         Consumer(builder: (context, ref, _) {
                           final minumanItems =
-                              (ref.watch(tempPesananProvider).daftar_pesanan)
-                                  ?.where((data) => data.jenis == "Minuman")
-                                  .toList();
+                              (ref.watch(tempPesananProvider).daftar_pesanan)?.where((data) => data.jenis == "Minuman").toList();
                           return GridView.builder(
-                              gridDelegate:
-                                  SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount:
-                                    (MediaQuery.of(context).size.width / 400)
-                                        .round(),
+                              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: (MediaQuery.of(context).size.width / 400).round(),
                                 mainAxisExtent: 120,
                               ),
                               itemCount: minumanItems?.length,
                               itemBuilder: (context, index) {
-                                return ItemCard(
-                                    items: minumanItems![index],
-                                    id: minumanItems[index].id);
+                                return ItemCard(items: minumanItems![index], id: minumanItems[index].id);
                               });
                         }),
                         Consumer(builder: (context, ref, _) {
                           final tambahanItems =
-                              (ref.watch(tempPesananProvider).daftar_pesanan)
-                                  ?.where((data) => data.jenis == "Tambahan")
-                                  .toList();
+                              (ref.watch(tempPesananProvider).daftar_pesanan)?.where((data) => data.jenis == "Tambahan").toList();
                           return GridView.builder(
-                              gridDelegate:
-                                  SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount:
-                                    (MediaQuery.of(context).size.width / 400)
-                                        .round(),
+                              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: (MediaQuery.of(context).size.width / 400).round(),
                                 mainAxisExtent: 120,
                               ),
                               itemCount: tambahanItems?.length,
                               itemBuilder: (context, index) {
-                                return ItemCard(
-                                    items: tambahanItems![index],
-                                    id: tambahanItems[index].id);
+                                return ItemCard(items: tambahanItems![index], id: tambahanItems[index].id);
                               });
                         }),
                         Consumer(builder: (context, ref, _) {
                           final bungkusItems =
-                              (ref.watch(tempPesananProvider).daftar_pesanan)
-                                  ?.where((data) => data.jenis == "Bungkus")
-                                  .toList();
+                              (ref.watch(tempPesananProvider).daftar_pesanan)?.where((data) => data.jenis == "Bungkus").toList();
                           return GridView.builder(
-                              gridDelegate:
-                                  SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount:
-                                    (MediaQuery.of(context).size.width / 400)
-                                        .round(),
+                              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: (MediaQuery.of(context).size.width / 400).round(),
                                 mainAxisExtent: 120,
                               ),
                               itemCount: bungkusItems?.length,
                               itemBuilder: (context, index) {
-                                return ItemCard(
-                                    items: bungkusItems![index],
-                                    id: bungkusItems[index].id);
+                                return ItemCard(items: bungkusItems![index], id: bungkusItems[index].id);
                               });
                         }),
                       ]),
@@ -196,15 +174,12 @@ class AddOrder extends ConsumerWidget {
                 onPressed: () {
                   print("saved");
                 },
-                style: FilledButton.styleFrom(
-                    splashFactory: InkSparkle.splashFactory),
+                style: FilledButton.styleFrom(splashFactory: InkSparkle.splashFactory),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    const Text("Simpan Pesanan",
-                        style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.w500)),
+                    const Text("Simpan Pesanan", style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
                     const Spacer(),
                     Consumer(builder: (context, ref, _) {
                       return Text(
@@ -256,18 +231,13 @@ class ItemCardState extends ConsumerState<ItemCard> {
               flex: 1,
               child: ElevatedButton(
                   onPressed: () {
-                    ref
-                        .read(tempPesananProvider)
-                        .setItemCount(widget.id!, widget.items.jumlah! - 1);
+                    ref.read(tempPesananProvider).setItemCount(widget.id!, widget.items.jumlah! - 1);
                   },
                   onLongPress: () {
-                    ref
-                        .read(tempPesananProvider)
-                        .setItemCount(widget.id!, widget.items.jumlah! - 5);
+                    ref.read(tempPesananProvider).setItemCount(widget.id!, widget.items.jumlah! - 5);
                   },
                   style: ElevatedButton.styleFrom(
-                      backgroundColor:
-                          Theme.of(context).colorScheme.tertiaryContainer,
+                      backgroundColor: Theme.of(context).colorScheme.tertiaryContainer,
                       splashFactory: InkSparkle.splashFactory,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(0),
@@ -287,8 +257,7 @@ class ItemCardState extends ConsumerState<ItemCard> {
                       children: [
                         Text(
                           widget.items.nama.toString(),
-                          style: const TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.bold),
+                          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                           overflow: TextOverflow.ellipsis,
                           maxLines: 1,
                           textAlign: TextAlign.center,
@@ -302,27 +271,21 @@ class ItemCardState extends ConsumerState<ItemCard> {
                           children: [
                             TextButton(
                                 onPressed: () {
-                                  print("edit catatan pesanan");
+                                  _displayEditorCatatanPesanan(context, ref, widget.id!);
                                 },
                                 child: Row(
                                   children: [
                                     Icon(
                                       Icons.edit_note_outlined,
                                       size: 14,
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .secondary,
+                                      color: Theme.of(context).colorScheme.secondary,
                                     ),
                                     const SizedBox(
                                       width: 8,
                                     ),
                                     Text(
-                                      "Catatan Pesanan...",
-                                      style: TextStyle(
-                                          fontSize: 14,
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .secondary),
+                                      widget.items.catatan == "" ? "Catatan Pesanan..." : widget.items.catatan!,
+                                      style: TextStyle(fontSize: 14, color: Theme.of(context).colorScheme.secondary),
                                     )
                                   ],
                                 ))
@@ -336,18 +299,13 @@ class ItemCardState extends ConsumerState<ItemCard> {
               flex: 1,
               child: ElevatedButton(
                   onPressed: () {
-                    ref
-                        .read(tempPesananProvider)
-                        .setItemCount(widget.id!, widget.items.jumlah! + 1);
+                    ref.read(tempPesananProvider).setItemCount(widget.id!, widget.items.jumlah! + 1);
                   },
                   onLongPress: () {
-                    ref
-                        .read(tempPesananProvider)
-                        .setItemCount(widget.id!, widget.items.jumlah! + 5);
+                    ref.read(tempPesananProvider).setItemCount(widget.id!, widget.items.jumlah! + 5);
                   },
                   style: ElevatedButton.styleFrom(
-                      backgroundColor:
-                          Theme.of(context).colorScheme.secondaryContainer,
+                      backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
                       splashFactory: InkSparkle.splashFactory,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(0),
@@ -359,5 +317,28 @@ class ItemCardState extends ConsumerState<ItemCard> {
             ),
           ],
         ));
+  }
+
+  Future<void> _displayEditorCatatanPesanan(BuildContext context, WidgetRef ref, int id) async {
+    final TextEditingController _textFieldController = TextEditingController();
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text("Edit Catatan Pesanan"),
+            content: TextField(
+              controller: _textFieldController,
+              decoration: InputDecoration(hintText: "Ganti catatan pesanan"),
+            ),
+            actions: [
+              FilledButton(
+                  onPressed: () {
+                    ref.read(tempPesananProvider).setCatatanPesanan(id, _textFieldController.text);
+                    Navigator.pop(context);
+                  },
+                  child: Text("Simpan")),
+            ],
+          );
+        });
   }
 }

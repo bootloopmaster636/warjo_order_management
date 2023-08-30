@@ -18,7 +18,7 @@ class item {
         _jenis = jenis,
         _harga = harga,
         _jumlah = jumlah,
-        _catatan = "Tulis Catatan Pesanan...";
+        _catatan = "";
 
 
   static List<item> makeMenu() {
